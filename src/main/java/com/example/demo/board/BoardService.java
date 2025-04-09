@@ -1,5 +1,6 @@
 package com.example.demo.board;
 
+import com.example.demo.comment.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -9,6 +10,8 @@ import java.util.*;
 public class BoardService {
   @Autowired
   private BoardDao boardDao;
+  @Autowired
+  private CommentDao commentDao;
 
   public int save(Board board) {
     boardDao.save(board);
@@ -19,9 +22,11 @@ public class BoardService {
     return boardDao.findAll();
   }
 
-  public Board findByBno(int bno) {
+  public Map<String,Object> findByBno(int bno) {
     boardDao.increaseReadCnt(bno);
-    return boardDao.findByBno(bno);
+    Board board = boardDao.findByBno(bno);
+    List<Comment> comments = commentDao.findByBno(bno);
+    return Map.of("board", board, "comments", comments);
   }
 
   // storedPassword : 데이터베이스에 저장된 글의 비밀번호

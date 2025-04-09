@@ -1,0 +1,28 @@
+-- 익명 게시판 : 게시판, 댓글 테이블
+-- 게시판 : 글번호, 제목, 내용, 닉네임, 비밀번호, 작성시간, 조회수
+-- 댓글 : 댓글번호, 내용, 닉네임, 비밀번호, 작성시간
+
+create sequence boards_seq;
+create table boards (
+    bno number(7),
+    title varchar2(50 char),
+    -- varchar2의 최대길이는 4000바이트(1333자. 오라클에서 한글 한글자는 3바이트)
+    content clob,
+    nickname varchar2(10 char),
+    password varchar2(10 char),
+    write_time date default sysdate,
+    read_cnt number(7) default 0,
+    constraint boards_pk_bno primary key(bno)
+);
+
+create sequence comments_seq;
+create table comments (
+    cno number(7),
+    content varchar2(100 char),
+    nickname varchar2(10 char),
+    password varchar2(10 char),
+    -- 컬럼 뒤에 지정하는 것을 컬럼 레벨
+    write_time date default sysdate,
+    -- 아래 기본키처럼 컬럼 뒤가 아니라 테이블 마지막에 지정하는 것을 테이블 레벨
+    constraint comments_pk_cno primary key(cno)
+);

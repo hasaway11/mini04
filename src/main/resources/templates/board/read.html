@@ -8,8 +8,8 @@
 </head>
 <body>
   <form action="/board/write" method="post" enctype="multipart/form-data">
-    <div th:text="${content}"></div>
-    <div th:utext="${content}"></div>
+    <div th:text="${board}"></div>
+    <div th:utext="${board.content}"></div>
     <button>작성하기</button>
   </form>
 </body>

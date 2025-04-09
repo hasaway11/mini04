@@ -1,4 +1,4 @@
-package com.example.demo.board;
+package com.example.demo.comment;
 
 import lombok.*;
 
@@ -6,13 +6,10 @@ import java.time.*;
 
 @Getter
 @Setter
-@ToString
-public class Board {
-  private Integer bno;
-  private String title;
+public class Comment {
+  private Integer cno;
   private String content;
   private String nickname;
   private String password;
   private LocalDateTime writeTime;
-  private Integer readCnt;
 }

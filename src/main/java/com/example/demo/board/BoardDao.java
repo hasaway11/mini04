@@ -17,7 +17,7 @@ public interface BoardDao {
   @Select("select * from board where bno=#{bno} and rownum=1")
   Board findByBno(int bno);
 
-  @Update("update board set readCnt=readCnt+1 where bno=#{bno} and rownum=1")
+  @Update("update board set read_cnt=read_cnt+1 where bno=#{bno} and rownum=1")
   int increaseReadCnt(int bno);
 
   @Update("update board set title=#{title}, content=#{content} where bno=#{bno} and rownum=1")
