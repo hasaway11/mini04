@@ -47,17 +47,20 @@
           <textarea id="summernote" name="content" th:utext="${board.content}"></textarea>
         </div>
         <div class="mb-3 mt-3">
-          <input type="password" class="form-control" maxlength="10" name="password" placeholder="변경을 위한 비밀번호">
+          <input type="password" class="form-control" maxlength="10" name="password" placeholder="변경을 위한 비밀번호" required>
           <input type="hidden" name="bno" th:value="${board.bno}">
         </div>
         <div class="mb-3 mt-3">
-          <button class="btn btn-outline-primary">작성하기</button>
+          <button class="btn btn-outline-primary">변경하기</button>
         </div>
       </form>
+      <hr>
       <form action="/board/delete" method="post">
-        <input type="password" class="form-control" maxlength="10" name="password" placeholder="삭제를 위한 비밀번호">
+        <input type="password" class="form-control" maxlength="10" name="password" placeholder="삭제를 위한 비밀번호" required>
         <input type="hidden" name="bno" th:value="${board.bno}">
-        <button class="btn btn-outline-danger">삭제하기</button>
+        <div class="mb-3 mt-3">
+          <button class="btn btn-outline-danger">삭제하기</button>
+        </div>
       </form>
     </section>
     <aside th:replace="~{./fragment/aside.html}"></aside>

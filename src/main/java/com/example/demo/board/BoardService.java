@@ -1,6 +1,5 @@
 package com.example.demo.board;
 
-import com.example.demo.comment.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 

@@ -45,9 +45,7 @@ public class BoardController {
 
   @PostMapping("/board/delete")
   public ModelAndView update(Integer bno, String password) {
-    boolean result = boardService.delete(bno, password);
-    if (result)
-      return new ModelAndView("redirect:/board/read?bno=" + bno);
+    boardService.delete(bno, password);
     return new ModelAndView("redirect:/");
   }
 }
