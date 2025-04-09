@@ -10,8 +10,6 @@ import java.util.*;
 public class BoardService {
   @Autowired
   private BoardDao boardDao;
-  @Autowired
-  private CommentDao commentDao;
 
   public int save(Board board) {
     boardDao.save(board);
@@ -22,11 +20,9 @@ public class BoardService {
     return boardDao.findAll();
   }
 
-  public Map<String,Object> findByBno(int bno) {
+  public Board findByBno(int bno) {
     boardDao.increaseReadCnt(bno);
-    Board board = boardDao.findByBno(bno);
-    List<Comment> comments = commentDao.findByBno(bno);
-    return Map.of("board", board, "comments", comments);
+    return boardDao.findByBno(bno);
   }
 
   // storedPassword : 데이터베이스에 저장된 글의 비밀번호

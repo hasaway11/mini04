@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.*;
 
-@Mapper
+//@Mapper
 public interface CommentDao {
   @Insert("insert into comments(cno,content,nickname,password) values(comments_seq.nextval, #{content}, #{nickname}, #{password})")
   public int save(Comment comment);

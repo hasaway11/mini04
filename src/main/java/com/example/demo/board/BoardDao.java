@@ -11,7 +11,7 @@ public interface BoardDao {
   @Insert("insert into board(bno,title,content,nickname,password) values(#{bno},#{title},#{content},#{nickname},#{password})")
   int save(Board board);
 
-  @Select("select * from board")
+  @Select("select * from board order by bno desc")
   List<Board> findAll();
 
   @Select("select * from board where bno=#{bno} and rownum=1")

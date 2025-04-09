@@ -23,7 +23,7 @@ public class BoardController {
     return new ModelAndView("redirect:/board/read?bno=" + bno);
   }
 
-  @GetMapping("/board/list")
+  @GetMapping("/")
   public ModelAndView list() {
     List<Board> boards = boardService.findAll();
     return new ModelAndView("board/list").addObject("boards", boards);
@@ -40,7 +40,7 @@ public class BoardController {
     boolean result = boardService.update(board);
     if (result)
       return new ModelAndView("redirect:/board/read?bno=" + board.getBno());
-    return new ModelAndView("redirect:/board/list");
+    return new ModelAndView("redirect:/");
   }
 
   @PostMapping("/board/delete")
@@ -48,6 +48,6 @@ public class BoardController {
     boolean result = boardService.delete(bno, password);
     if (result)
       return new ModelAndView("redirect:/board/read?bno=" + bno);
-    return new ModelAndView("redirect:/board/list");
+    return new ModelAndView("redirect:/");
   }
 }
