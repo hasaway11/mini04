@@ -31,8 +31,8 @@ public class BoardController {
 
   @GetMapping("/board/read")
   public ModelAndView findByBno(int bno) {
-    Board board = boardService.findByBno(bno);
-    return new ModelAndView("board/read").addObject("board", board);
+    Map<String,Object> map = boardService.findByBno(bno);
+    return new ModelAndView("board/read").addObject("map", map);
   }
 
   @PostMapping("/board/update")

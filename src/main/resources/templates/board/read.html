@@ -11,6 +11,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
   <script src="/summer.js"></script>
+  <style>
+    .horizontal>.form-control {
+      display: inline-block;
+      width: 60%;
+      margin-right: 20px;
+    }
+
+    #board {
+      padding:5px;
+      background-color: #eee;
+    }
+
+    .comment {
+      padding:5px;
+      background-color: #f9f9f9;
+      border-radius:10px;
+      border: 1px solid #eee;
+    }
+  </style>
 </head>
 <body>
 <div id="app">
@@ -21,47 +40,67 @@
   <main>
     <aside th:replace="~{./fragment/aside.html}"></aside>
     <section>
-      <form action="/board/update" enctype="multipart/form-data" method="post">
+      <div id="board">
+        <form action="/board/update" enctype="multipart/form-data" method="post">
+          <div class="mb-3 mt-3">
+            <table style="width:80%;">
+              <colgroup>
+                <col style="width:20%;" />
+                <col style="width:80%;" />
+              </colgroup>
+              <tr>
+                <td>번호</td><td th:text="${map.board.bno}"></td>
+              </tr>
+              <tr>
+                <td>작성일</td><td th:text="${map.board.writeTime}"></td>
+              </tr>
+              <tr>
+                <td>제목</td>
+                <td>
+                  <input type="text" style="display:block;" class="form-control" id="title" maxlength="30" name="title" th:value="${map.board.title}">
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="mb-3 mt-3">
+            <label class="form-label" for="summernote">내용:</label>
+            <textarea id="summernote" name="content" th:utext="${map.board.content}"></textarea>
+          </div>
+          <div class="mb-3 mt-3 horizontal">
+            <input type="password" class="form-control" maxlength="10" name="password" placeholder="변경을 위한 비밀번호" required>
+            <input type="hidden" name="bno" th:value="${map.board.bno}">
+            <button class="btn btn-outline-primary">변경하기</button>
+          </div>
+        </form>
+        <form action="/board/delete" method="post" class="horizontal">
+          <input type="password" class="form-control"  maxlength="10" name="password" placeholder="삭제를 위한 비밀번호" required>
+          <input type="hidden" name="bno" th:value="${map.board.bno}">
+          <button class="btn btn-outline-danger">삭제하기</button>
+        </form>
+      </div>
+      <hr>
+      <form action="/comment/write" method="post">
+        <input type="hidden" name="bno" th:value="${map.board.bno}">
         <div class="mb-3 mt-3">
-          <table style="width:80%;">
-            <colgroup>
-              <col style="width:20%;" />
-              <col style="width:80%;" />
-            </colgroup>
-            <tr>
-              <td>번호</td><td th:text="${board.bno}"></td>
-            </tr>
-            <tr>
-              <td>작성일</td><td th:text="${board.writeTime}"></td>
-            </tr>
-            <tr>
-              <td>제목</td>
-              <td>
-                <input type="text" style="display:block;" class="form-control" id="title" maxlength="30" name="title" th:value="${board.title}">
-              </td>
-            </tr>
-          </table>
+          <label for="content">댓글:</label>
+          <textarea class="form-control" rows="5" id="content" name="content" placeholder="좋은 댓글 부탁드려요"></textarea>
         </div>
         <div class="mb-3 mt-3">
-          <label class="form-label" for="summernote">내용:</label>
-          <textarea id="summernote" name="content" th:utext="${board.content}"></textarea>
+          <label class="form-label" for="nickname">닉네임:</label>
+          <input type="text" class="form-control" id="nickname" maxlength="10" name="nickname" required>
         </div>
         <div class="mb-3 mt-3">
-          <input type="password" class="form-control" maxlength="10" name="password" placeholder="변경을 위한 비밀번호" required>
-          <input type="hidden" name="bno" th:value="${board.bno}">
+          <label class="form-label" for="password">비밀번호:</label>
+          <input type="password" class="form-control" id="password" maxlength="10" name="password" required>
         </div>
-        <div class="mb-3 mt-3">
-          <button class="btn btn-outline-primary">변경하기</button>
-        </div>
+        <button class="btn btn-primary">댓글 작성하기</button>
       </form>
       <hr>
-      <form action="/board/delete" method="post">
-        <input type="password" class="form-control" maxlength="10" name="password" placeholder="삭제를 위한 비밀번호" required>
-        <input type="hidden" name="bno" th:value="${board.bno}">
-        <div class="mb-3 mt-3">
-          <button class="btn btn-outline-danger">삭제하기</button>
-        </div>
-      </form>
+      <div th:each="c:${map.comments}" class="comment mt-3 mb-3">
+        <div th:text="${c.nickname}"></div>
+        <div th:text="${c.writeTime}"></div>
+        <div th:text="${c.content}"></div>
+      </div>
     </section>
     <aside th:replace="~{./fragment/aside.html}"></aside>
   </main>
