@@ -1,18 +1,20 @@
 package com.example.demo.board;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.*;
 
+import java.util.*;
+
+@CrossOrigin("*")
 @Controller
 public class CommentController {
   @Autowired
   private CommentService commentService;
 
   @PostMapping("/comment/write")
-  public ModelAndView save(@ModelAttribute Comment comment) {
-    commentService.save(comment);
-    return new ModelAndView("redirect:/board/read?bno=" + comment.getBno());
+  public ResponseEntity<List<Comment>> save(@ModelAttribute Comment comment) {
+    return ResponseEntity.ok(commentService.save(comment));
   }
 }

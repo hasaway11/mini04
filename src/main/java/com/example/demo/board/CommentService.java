@@ -3,12 +3,15 @@ package com.example.demo.board;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.*;
+
 @Service
 public class CommentService {
   @Autowired
   private CommentDao commentDao;
 
-  public boolean save(Comment comment) {
-    return commentDao.save(comment)>0;
+  public List<Comment> save(Comment comment) {
+    commentDao.save(comment);
+    return commentDao.findByBno(comment.getBno());
   }
 }

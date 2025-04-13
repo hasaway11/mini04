@@ -1,51 +1,50 @@
 package com.example.demo.board;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.*;
 
 import java.util.*;
 
+@CrossOrigin("*")
 @Controller
 public class BoardController {
   @Autowired
   private BoardService boardService;
 
-  @GetMapping("/board/write")
-  public ModelAndView write() {
-    return new ModelAndView("board/write");
-  }
-
   @PostMapping("/board/write")
-  public ModelAndView write(Board board) {
+  public ResponseEntity<Integer> write(@RequestBody Board board) {
+    System.out.println(board);
     int bno = boardService.save(board);
-    return new ModelAndView("redirect:/board/read?bno=" + bno);
+    return ResponseEntity.ok(bno);
   }
 
   @GetMapping("/")
-  public ModelAndView list() {
+  public ResponseEntity<List<Board>> list() {
     List<Board> boards = boardService.findAll();
-    return new ModelAndView("board/list").addObject("boards", boards);
+    return ResponseEntity.ok(boards);
   }
 
   @GetMapping("/board/read")
-  public ModelAndView findByBno(int bno) {
+  public ResponseEntity<Map<String,Object>> findByBno(int bno) {
     Map<String,Object> map = boardService.findByBno(bno);
-    return new ModelAndView("board/read").addObject("map", map);
+    return ResponseEntity.ok(map);
   }
 
   @PostMapping("/board/update")
-  public ModelAndView update(Board board) {
+  public ResponseEntity<Void> update(Board board) {
     boolean result = boardService.update(board);
     if (result)
-      return new ModelAndView("redirect:/board/read?bno=" + board.getBno());
-    return new ModelAndView("redirect:/");
+      return ResponseEntity.ok().build();
+    return ResponseEntity.notFound().build();
   }
 
   @PostMapping("/board/delete")
-  public ModelAndView update(Integer bno, String password) {
-    boardService.delete(bno, password);
-    return new ModelAndView("redirect:/");
+  public ResponseEntity<Void> update(Integer bno, String password) {
+    boolean result = boardService.delete(bno, password);
+    if (result)
+      return ResponseEntity.ok().build();
+    return ResponseEntity.notFound().build();
   }
 }
